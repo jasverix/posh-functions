@@ -14,3 +14,7 @@ function grep {
 function regex {
   $input | out-string -stream | select-string $args -AllMatches | Foreach-Object { $_.Matches | Foreach-Object { $out = ""; $first = 1; $_.Groups | Foreach-Object { if($First) {$First = 0;} else { $out += $_.Value + "    " } }; $out.Trim() } }
 }
+
+function tail {
+	Get-Content -Path $args[0] -Wait
+}
