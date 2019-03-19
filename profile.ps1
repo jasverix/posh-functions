@@ -18,3 +18,13 @@ function regex {
 function tail {
 	Get-Content -Path $args[0] -Wait
 }
+
+function hg {
+	# echo "$args"
+	# Invoke-Command "& hg.exe $args"
+	hg.exe $args
+	
+	if($LastExitCode -ne 0) {
+		Write-Error -Message "hg.exe failed with an error"
+	}
+}
