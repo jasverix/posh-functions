@@ -18,3 +18,22 @@ function regex {
 function tail {
 	Get-Content -Path $args[0] -Wait
 }
+
+#override prompt to have new-line - working with combination of my posh-hg and posh-git forks
+function prompt { 
+	Write-Host -NoNewline "[$(Get-Location)\]"
+	
+	$res = ''
+	$res += $(Write-VcsStatus)
+	$res = $res.Replace("`r", "")
+	$res = $res.Replace("`n", "")
+	$res = $res -replace '(?ms)(?:\r|\n)^\s*$'
+	if ($res -ne '') {
+		Write-Host -NoNewline $res
+	}
+	
+	Write-Host ''
+	
+	return "$("+"*(Get-Location -Stack).Count)" + '> '
+}
+
